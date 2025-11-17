@@ -1,6 +1,7 @@
 // index.js
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
@@ -103,6 +104,14 @@ mongoose.connection.on("error", (error) => {
   mongoError = error.message;
   console.error("❌ MongoDB error:", error.message);
 });
+
+// CORS configuration for wildcard access
+app.use(cors({
+  origin: "*", // Allow all origins
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  credentials: false // Set to false when using wildcard origin
+}));
 
 app.use(express.json()); // Middleware to parse JSON requests
 
